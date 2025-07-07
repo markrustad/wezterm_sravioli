@@ -1,0 +1,26 @@
+[user]
+    name = Mark Rustad
+    email = madarus@gmail.com
+[init]
+    defaultBranch = main
+[core]
+    editor = nvim
+    pager = less -FRX
+    symlinks = true
+    autocrlf = input
+    eol = lf
+[filter "lfs"]
+    process = git-lfs filter-process
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+[fetch]
+    prune = true
+[pull]
+ff = only
+[color]
+    ui = auto
+[merge]
+    conflictstyle = diff3
+[diff]
+    algorithm = patience # patience, minimal, myers
