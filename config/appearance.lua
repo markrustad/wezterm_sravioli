@@ -11,14 +11,9 @@ Config.color_scheme = color.get_scheme()
 
 local theme = Config.color_schemes[Config.color_scheme]
 
-Config.background = {
-  {
-    source = { Color = theme.background },
-    width = "100%",
-    height = "100%",
-    opacity = G.opacity or 1,
-  },
-}
+-- Use backdrop system for background instead of static color
+local backdrop = require "utils.backdrop"
+Config.background = backdrop:initial_options(false) -- set to true if you want wezterm to start on focus mode
 
 Config.bold_brightens_ansi_colors = "BrightAndBold"
 
@@ -36,7 +31,7 @@ Config.command_palette_rows = 20
 Config.cursor_blink_ease_in = "EaseIn"
 Config.cursor_blink_ease_out = "EaseOut"
 Config.cursor_blink_rate = 500
-Config.default_cursor_style = "BlinkingUnderline"
+Config.default_cursor_style = "BlinkingBlock"
 Config.cursor_thickness = 1
 Config.force_reverse_video_cursor = true
 

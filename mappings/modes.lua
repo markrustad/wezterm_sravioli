@@ -160,6 +160,7 @@ local key_tables = {
     { "f", require("picker.font"):pick(), "font" },
     { "s", require("picker.font-size"):pick(), "font size" },
     { "l", require("picker.font-leading"):pick(), "line height" },
+    { "b", require("picker.backdrop"):pick(), "backdrop" },
   }, -- }}}
 }
 
