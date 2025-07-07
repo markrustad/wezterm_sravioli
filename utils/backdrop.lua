@@ -1,5 +1,5 @@
-local wezterm = require("wezterm")
-local Utils = require("utils")
+local Utils = require "utils"
+local wezterm = require "wezterm"
 
 -- Seeding random numbers before generating for use
 -- Known issue with lua math library
@@ -27,7 +27,7 @@ function BackDrops:init()
   local theme_color = Utils.fn.color.get_scheme()
   local current_scheme = Utils.fn.color.get_schemes()[theme_color]
   local default_bg = current_scheme and current_scheme.background or "#000000"
-  
+
   local initial = {
     current_idx = 1,
     images = {},
@@ -48,7 +48,7 @@ end
 ---@param path string directory of background images
 function BackDrops:set_images_dir(path)
   self.images_dir = path
-  if not path:match("/$") then
+  if not path:match "/$" then
     self.images_dir = path .. "/"
   end
   return self
@@ -82,7 +82,7 @@ function BackDrops:_create_opts()
   local theme_color = Utils.fn.color.get_scheme()
   local current_scheme = Utils.fn.color.get_schemes()[theme_color]
   local bg_color = current_scheme and current_scheme.background or "#000000"
-  
+
   return {
     {
       source = { File = self.images[self.current_idx] },
@@ -134,10 +134,10 @@ end
 ---@param window any WezTerm Window see: https://wezfurlong.org/wezterm/config/lua/window/index.html
 ---@param background_opts table background option
 function BackDrops:_set_opt(window, background_opts)
-  window:set_config_overrides({
+  window:set_config_overrides {
     background = background_opts,
     enable_tab_bar = window:effective_config().enable_tab_bar,
-  })
+  }
 end
 
 ---Override the current window options for background with focus color
@@ -167,7 +167,7 @@ function BackDrops:choices()
   for idx, file in ipairs(self.images) do
     table.insert(choices, {
       id = tostring(idx),
-      label = file:match("([^/]+)$"),
+      label = file:match "([^/]+)$",
     })
   end
   return choices
@@ -223,7 +223,7 @@ function BackDrops:set_img(window, idx)
     return
   end
   if idx > #self.images or idx < 0 then
-    wezterm.log_error("Index out of range")
+    wezterm.log_error "Index out of range"
     return
   end
 
@@ -247,4 +247,4 @@ function BackDrops:toggle_focus(window)
   self:_set_opt(window, background_opts)
 end
 
-return BackDrops:init() 
+return BackDrops:init()

@@ -1,3 +1,4 @@
 **/temp/*
 .vscode
 picker/assets/backdrops/images
+.env

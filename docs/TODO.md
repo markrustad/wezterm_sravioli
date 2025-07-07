@@ -319,3 +319,7 @@ Also, each color scheme in the `picker/assets/colorschemes` explicitly sets the 
 
 return M
 ```
+
+## Launcher and SSH domain
+
+- Test that it picks up the correct settings

@@ -1,0 +1,6 @@
+.git
+.github
+.rsync-exclude
+CHANGELOG.md
+cog.toml
+docs
