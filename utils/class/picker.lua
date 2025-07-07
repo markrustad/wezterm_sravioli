@@ -8,7 +8,8 @@ local Utils = require "utils"
 local fs, Logger = Utils.fn.fs, Utils.class.logger
 
 local wt = require "wezterm"
-local config_dir = wt.config_dir
+-- Use wezterm config directory with fallback to current directory
+local config_dir = wt.config_dir or "."
 
 -- {{{1 Meta
 
@@ -158,7 +159,8 @@ end
 ---@param path string
 ---@return string require_path
 function h.path_to_module(path)
-  return (path:sub(#config_dir + 2):gsub("%.lua$", ""):gsub(fs.path_separator, "."))
+  -- Remove leading "./" if present and convert to module path
+  return (path:gsub("^%./", ""):gsub("%.lua$", ""):gsub(fs.path_separator, "."))
 end
 
 -- }}}
@@ -184,7 +186,8 @@ function M.new(opts)
   self.description = opts.description or "Select an item."
   self.fuzzy_description = opts.fuzzy_description or "Fuzzy matching: "
 
-  local dir = fs.pathconcat(config_dir, "picker", "assets", opts.subdir)
+  local dir =
+    fs.pathconcat(opts.config_dir or config_dir, "picker", "assets", opts.subdir)
   local paths = fs.ls_dir(dir)
   if not paths then
     self.log:error("Cannot read files from %s", dir)

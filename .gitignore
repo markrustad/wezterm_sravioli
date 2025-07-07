@@ -1,0 +1,5 @@
+runtime_cfg_backups
+.vscode
+.claude
+.env
+picker/assets/backdrops/images/*
