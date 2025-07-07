@@ -31,7 +31,7 @@ function BackDrops:init()
   local initial = {
     current_idx = 1,
     images = {},
-    images_dir = wezterm.config_dir .. "/backdrops/",
+    images_dir = wezterm.config_dir .. "/picker/assets/backdrops/images/",
     focus_color = default_bg,
     focus_on = false,
   }
@@ -75,13 +75,24 @@ function BackDrops:set_focus(focus_color)
   return self
 end
 
+---Update backdrop for theme change
+---Updates the focus color and regenerates background options
+---@param theme_bg string new theme background color
+function BackDrops:update_for_theme(theme_bg)
+  self.focus_color = theme_bg
+  return self
+end
+
 ---Create the `background` options with the current image
 ---@private
 ---@return table
 function BackDrops:_create_opts()
+  -- Get current theme background color dynamically
   local theme_color = Utils.fn.color.get_scheme()
   local current_scheme = Utils.fn.color.get_schemes()[theme_color]
-  local bg_color = current_scheme and current_scheme.background or "#000000"
+  local bg_color = current_scheme and current_scheme.background
+    or self.focus_color
+    or "#000000"
 
   return {
     {
@@ -134,9 +145,10 @@ end
 ---@param window any WezTerm Window see: https://wezfurlong.org/wezterm/config/lua/window/index.html
 ---@param background_opts table background option
 function BackDrops:_set_opt(window, background_opts)
+  local current_config = window:effective_config()
   window:set_config_overrides {
     background = background_opts,
-    enable_tab_bar = window:effective_config().enable_tab_bar,
+    enable_tab_bar = current_config.enable_tab_bar,
   }
 end
 

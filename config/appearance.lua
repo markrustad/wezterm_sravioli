@@ -13,7 +13,19 @@ local theme = Config.color_schemes[Config.color_scheme]
 
 -- Use backdrop system for background instead of static color
 local backdrop = require "utils.backdrop"
-Config.background = backdrop:initial_options(false) -- set to true if you want wezterm to start on focus mode
+if backdrop and backdrop.images and #backdrop.images > 0 then
+  Config.background = backdrop:initial_options(false) -- set to true if you want wezterm to start on focus mode
+else
+  -- Fallback to theme background color if no backdrop images
+  Config.background = {
+    {
+      source = { Color = theme.background },
+      width = "100%",
+      height = "100%",
+      opacity = G.opacity or 1,
+    },
+  }
+end
 
 Config.bold_brightens_ansi_colors = "BrightAndBold"
 

@@ -4,3 +4,6 @@
 CHANGELOG.md
 cog.toml
 docs
+runtime_cfg_backups
+wezterm_config_with_working_background
+scripts

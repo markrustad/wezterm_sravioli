@@ -12,10 +12,14 @@ M.get = function()
 end
 
 M.activate = function(Config, opts)
-  local filename = "picker/assets/backdrops/images/frieren.jpeg"
-  local image_path = backdrop:get_image_path(filename)
-  if image_path then
-    backdrop:set_specific_image(opts.window, image_path)
+  local backdrop = require "utils.backdrop"
+  -- Find the index of this image in the backdrop.images array
+  local target_filename = "frieren.jpeg"
+  for idx, image_path in ipairs(backdrop.images) do
+    if image_path:match "([^/]+)$" == target_filename then
+      backdrop:set_img(opts.window, idx)
+      break
+    end
   end
 end
 

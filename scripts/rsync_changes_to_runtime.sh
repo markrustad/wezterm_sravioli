@@ -13,6 +13,9 @@ source .env
 # format lua files
 fd -uuu -tf -e lua -X stylua -f .stylua.toml {}
 
-
+# make backup of the current runtime config
+BACKUP_DIR="$PROJ_ROOT/runtime_cfg_backups/$(date +%Y%m%d_%H%M%S)"
+mkdir -p "$BACKUP_DIR"
+cp -r "$RUNTIME_CONFIG_ROOT"/* "$BACKUP_DIR"/
 
 rsync -av --update --exclude-from="$PROJ_ROOT/.rsync-exclude" "$PROJ_ROOT"/ "$RUNTIME_CONFIG_ROOT"/

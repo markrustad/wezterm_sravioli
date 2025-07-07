@@ -1166,14 +1166,26 @@ M.color.set_scheme = function(Config, theme, name)
   Config.char_select_fg_color = theme.background
   Config.command_palette_bg_color = theme.brights[6]
   Config.command_palette_fg_color = theme.background
-  Config.background = {
-    {
-      source = { Color = theme.background },
-      width = "100%",
-      height = "100%",
-      opacity = G.opacity or 1,
-    },
-  }
+
+  -- Preserve backdrop system if it exists, otherwise use static background
+  local backdrop = require "utils.backdrop"
+  if backdrop and backdrop.images and #backdrop.images > 0 then
+    -- Update the backdrop's focus color and background overlay to match new theme
+    backdrop:update_for_theme(theme.background)
+    -- Regenerate background options with new theme colors
+    Config.background = backdrop:initial_options(backdrop.focus_on)
+  else
+    -- No backdrop system, use static background
+    Config.background = {
+      {
+        source = { Color = theme.background },
+        width = "100%",
+        height = "100%",
+        opacity = G.opacity or 1,
+      },
+    }
+  end
+
   M.color.set_tab_button(Config, theme)
 end --~~}}}
 
